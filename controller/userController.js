@@ -81,7 +81,10 @@ const loginUser = async (req, res) => {
 //@route POST /api/user/me
 //@access PRIVATE
 const getUser = async (req, res) => {
-  const { _id, name, email } = await userDB.findById(req.user.id);
+  const ReqId = req.body.id || req.body._id;
+  if (!ReqId)
+    return res.status(400).json({ message: "Please use an valid ID" });
+  const { _id, name, email } = await userDB.findById(ReqId);
   res.status(200).json({
     id: _id,
     name,
